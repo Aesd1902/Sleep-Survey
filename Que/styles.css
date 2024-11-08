@@ -1,0 +1,218 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, rgba(255, 94, 120, 1), rgba(255, 94, 120, 0.2), rgba(72, 61, 139, 0.2), rgba(72, 61, 139, 1));
+  background-size: 400% 400%;
+  animation: gradientAnimation 6s ease infinite;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+/* Keyframes for Gradient Animation */
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Header Section */
+.header {
+  background-color: #2c3e50;
+  padding: 10px 20px;
+  width: 100%;
+  text-align: center;
+}
+
+#timer {
+  font-size: 20px;
+  color: #ecf0f1;
+  font-weight: bold;
+}
+
+/* Container for Questionnaire */
+.container {
+  width: 80%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.section-title {
+  font-size: 24px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Question Styles */
+.question {
+  margin: 15px 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.question:hover {
+  transform: scale(1.02);
+  background-color: #ecf0f1;
+}
+
+label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #34495e;
+}
+
+input[type="text"], input[type="radio"], input[type="checkbox"] {
+  margin-top: 10px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Text Inputs */
+input[type="text"] {
+  width: 100%;
+}
+
+input[type="text"]:focus {
+  border-color: #3498db;
+  background-color: #f0f8ff;
+}
+
+/* Radio buttons and Checkboxes */
+input[type="radio"]:checked,
+input[type="checkbox"]:checked {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+  border-color: #3498db;
+}
+
+/* Button Styles */
+button {
+  background-color: #3498db;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+/* Section Navigation Button (Next) */
+.next-btn {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.next-btn:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+/* Final Review Section */
+#finalReview {
+  display: none;
+  padding-top: 20px;
+}
+
+#finalConsent {
+  margin-right: 10px;
+}
+
+/* Success Page Styles */
+#successPage {
+  display: none;
+  text-align: center;
+}
+
+#downloadPdf {
+  background-color: #8e44ad;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  margin-top: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#downloadPdf:hover {
+  background-color: #9b59b6;
+  transform: translateY(-2px);
+}
+
+#learnMore {
+  text-decoration: none;
+  background-color: #16a085;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#learnMore:hover {
+  background-color: #1abc9c;
+  transform: translateY(-2px);
+}
+
+/* Timer Animation */
+@keyframes countdown {
+  0% {
+    color: #ecf0f1;
+  }
+  50% {
+    color: #e67e22;
+  }
+  100% {
+    color: #ecf0f1;
+  }
+}
+
+#timer {
+  animation: countdown 2s infinite;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+    padding: 20px;
+  }
+
+  input[type="text"], button, .next-btn {
+    width: 100%;
+  }
+
+  .section-title {
+    font-size: 20px;
+  }
+}

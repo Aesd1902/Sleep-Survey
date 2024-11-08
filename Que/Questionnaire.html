@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questionnaire</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header class="header">
+    <div class="timer">
+      <span id="timer">Time Remaining: 30:00</span>
+    </div>
+  </header>
+
+  <!-- Questionnaire Form -->
+  <div class="container">
+    <h2 class="section-title">Survey Questionnaire</h2>
+
+    <!-- Input for number of questions -->
+    <label for="numQuestions">Select Number of Questions:</label>
+    <input type="number" id="numQuestions" value="60" min="60" max="1000">
+    <button id="startSurveyBtn" class="start-btn">Start Survey</button>
+
+    <!-- Survey Form Section -->
+    <div id="surveyForm" class="survey-form"></div>
+
+    <!-- Final Review Section -->
+    <div id="finalReview" style="display:none;">
+      <h3>Review Your Answers</h3>
+      <label>
+        <input type="checkbox" id="finalConsent"> Yes, I wish to go for final submission
+      </label>
+      <button id="submitBtn" disabled>Submit</button>
+    </div>
+  </div>
+
+  <!-- Success Page -->
+  <div id="successPage" style="display:none;">
+    <h2>Thanks for submitting the form</h2>
+    <p>You have successfully completed the survey!</p>
+    <button id="downloadPdf">Download PDF</button>
+    <a href="https://youtube.com" id="learnMore" class="btn">Learn More</a>
+  </div>
+
+  <script>
+    let timer;
+    let timeLeft = 30 * 60; // Default 30 minutes in seconds
+    let timerDisplay = document.getElementById("timer");
+    let additionalTime = 0; // For tracking additional time added based on question selection
+    let sectionCounter = 0;
+    let questionsPerSection = 6;
+    let totalQuestions = 0;
+    let userAnswers = {}; // Object to store answers
+
+    // Timer update function
+    function updateTimer() {
+      let minutes = Math.floor(timeLeft / 60);
+      let seconds = timeLeft % 60;
+      timerDisplay.textContent = `Time Remaining: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        alert("Time's up! Please submit your survey.");
+      } else {
+        timeLeft--;
+      }
+    }
+
+    // Start the timer when the survey starts
+    function startTimer() {
+      timer = setInterval(updateTimer, 1000);
+    }
+
+    // Start Survey Button Clicked
+    document.getElementById('startSurveyBtn').addEventListener('click', function () {
+      totalQuestions = parseInt(document.getElementById('numQuestions').value);
+      generateSections(totalQuestions);
+      startTimer();
+      document.getElementById('startSurveyBtn').style.display = 'none';
+      document.getElementById('surveyForm').style.display = 'block';
+    });
+
+    // Function to generate the sections and questions
+    function generateSections(numQuestions) {
+      let surveyForm = document.getElementById('surveyForm');
+      surveyForm.innerHTML = ''; // Clear previous form sections
+      let sectionsCount = Math.ceil(numQuestions / questionsPerSection);
+
+      for (let sectionIndex = 1; sectionIndex <= sectionsCount; sectionIndex++) {
+        const section = document.createElement('div');
+        section.classList.add('section');
+        section.id = `section${sectionIndex}`;
+
+        const sectionTitle = document.createElement('h3');
+        sectionTitle.classList.add('section-title');
+        sectionTitle.innerHTML = `Section ${sectionIndex}: Question Set`;
+
+        section.appendChild(sectionTitle);
+
+        for (let questionIndex = 1; questionIndex <= questionsPerSection; questionIndex++) {
+          const questionNumber = ((sectionIndex - 1) * questionsPerSection) + questionIndex;
+          
+          if (questionNumber > numQuestions) break; // Break if the question number exceeds the total questions
+
+          const questionDiv = document.createElement('div');
+          questionDiv.classList.add('question');
+          
+          const questionLabel = document.createElement('label');
+          questionLabel.innerHTML = `Question ${questionNumber}: What is your opinion on this topic?`;
+
+          const answerInput = document.createElement('input');
+          answerInput.type = 'text';
+          answerInput.name = `question${questionNumber}`;
+          answerInput.placeholder = 'Your answer here...';
+          answerInput.addEventListener('input', (e) => {
+            userAnswers[answerInput.name] = e.target.value;
+          });
+
+          questionDiv.appendChild(questionLabel);
+          questionDiv.appendChild(answerInput);
+          section.appendChild(questionDiv);
+        }
+
+        surveyForm.appendChild(section);
+      }
+
+      // Add the Next Button to the last section
+      const nextBtn = document.createElement('button');
+      nextBtn.textContent = 'Next';
+      nextBtn.classList.add('next-btn');
+      nextBtn.addEventListener('click', showFinalReview);
+      surveyForm.appendChild(nextBtn);
+    }
+
+    // Show the final review section
+    function showFinalReview() {
+      document.getElementById('surveyForm').style.display = 'none';
+      document.getElementById('finalReview').style.display = 'block';
+      displayReviewAnswers();
+    }
+
+    // Display the answers in the final review section
+    function displayReviewAnswers() {
+      const reviewAnswers = document.getElementById('reviewAnswers');
+      reviewAnswers.innerHTML = ''; // Clear any previous review content
+      for (let i = 1; i <= totalQuestions; i++) {
+        const questionKey = `question${i}`;
+        const answerText = userAnswers[questionKey] || 'No answer provided';
+        
+        const answerDiv = document.createElement('div');
+        answerDiv.classList.add('review-answer');
+        
+        const questionLabel = document.createElement('h4');
+        questionLabel.innerHTML = `Question ${i}:`;
+        const answerLabel = document.createElement('p');
+        answerLabel.innerHTML = `Answer: ${answerText}`;
+        
+        answerDiv.appendChild(questionLabel);
+        answerDiv.appendChild(answerLabel);
+        reviewAnswers.appendChild(answerDiv);
+      }
+    }
+
+    // Enable/disable submit button based on consent checkbox
+    document.getElementById('finalConsent').addEventListener('change', () => {
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = !document.getElementById('finalConsent').checked;
+    });
+
+    // Submit the form
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      // Handle form submission, e.g., send data to the server
+      alert('Survey submitted successfully!');
+      document.getElementById('finalReview').style.display = 'none';
+      document.getElementById('successPage').style.display = 'block';
+    });
+
+    // Success Page
+    document.getElementById('downloadPdf').addEventListener('click', () => {
+      alert('PDF download functionality is under construction');
+    });
+  </script>
+</body>
+</html>
