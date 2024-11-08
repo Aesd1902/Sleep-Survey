@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sleep Survey</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, rgba(255, 94, 120, 1), rgba(255, 94, 120, 0.2), rgba(72, 61, 139, 0.2), rgba(72, 61, 139, 1));
+      background-size: 400% 400%;
+      animation: gradientAnimation 6s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Keyframes for Gradient Animation */
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      max-width: 500px;
+      padding: 40px;
+      text-align: center;
+      background: #ffffff;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 15px;
+      animation: fadeIn 1.5s ease-out;
+      transform: perspective(800px) rotateX(5deg) rotateY(3deg);
+      transition: all 0.3s ease-in-out;
+    }
+    .container:hover {
+      transform: perspective(800px) rotateX(0deg) rotateY(0deg) scale(1.05);
+    }
+
+    /* Branding Styles */
+    .branding {
+      font-size: 40px;
+      font-weight: bold;
+      color: rgb(255, 65, 0);
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+    .branding:hover {
+      color: rgb(245, 85, 25);
+      text-shadow: 4px 4px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Project Brief Section */
+    .project-brief {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: #555;
+    }
+
+    .project-brief img, .project-brief video {
+      max-width: 100%;
+      height: auto;
+      margin: 15px 0;
+      border-radius: 12px;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .project-brief img:hover, .project-brief video:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Timer Section */
+    .timer {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #FF5722;
+      font-weight: bold;
+      animation: pulse 1s infinite alternate;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Consent and Terms Section */
+    .consent-section {
+      margin-top: 30px;
+    }
+    .consent-section input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    .terms-link {
+      color: #007bff;
+      text-decoration: none;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .terms-link:hover {
+      color: #0056b3;
+      text-decoration: underline;
+      transform: scale(1.1);
+    }
+
+    /* Start Button */
+    .start-btn {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 20px;
+      color: white;
+      background-color: rgb(39, 174, 96);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .start-btn:hover {
+      background-color: rgb(34, 139, 34);
+      transform: translateY(-3px);
+    }
+    .start-btn:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+
+    /* Modal Popup */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      overflow: auto;
+    }
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 600px;
+      width: 80%;
+      animation: slideDown 0.5s ease;
+    }
+    .modal button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: rgb(39, 174, 96);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .modal button:hover {
+      background-color: rgb(34, 139, 34);
+      transform: scale(1.05);
+    }
+
+    /* Keyframes for Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes pulse {
+      from { opacity: 1; }
+      to { opacity: 0.7; }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="branding">Sleep Survey</div>
+  <div class="project-brief">
+    <p>Welcome to our sleep survey! This initiative helps us understand sleep patterns to improve overall wellness.</p>
+    <p>Please take a few minutes to answer the questions below. Your participation is highly valued!</p>
+    <img src="sleep_image.jpg" alt="Project Image">
+    <video src="sleep_video.mp4" controls></video>
+  </div>
+
+  <!-- Timer Section -->
+  <div class="timer" id="timer">Time Remaining: 30:00</div>
+
+  <!-- Consent and Terms Section -->
+  <div class="consent-section">
+    <label>
+      <input type="checkbox" id="consentCheckboxMain">
+      I agree to the <a href="#" class="terms-link" onclick="showTerms()">Terms & Conditions</a>
+    </label>
+  </div>
+
+  <!-- Start Button -->
+  <button class="start-btn" id="startBtn" disabled>Start Survey</button>
+</div>
+
+<!-- Modal Popup for Terms and Conditions -->
+<div class="modal" id="topUpModal">
+  <div class="modal-content">
+    <h3>Terms and Conditions</h3>
+    <p>Please read the following terms and conditions carefully before proceeding:</p>
+    <p><strong>1. Survey Participation:</strong> By participating in this survey, you agree to provide honest responses.</p>
+    <p><strong>2. Data Privacy:</strong> Your responses will be kept confidential and used only for research purposes.</p>
+    <p><strong>3. Consent:</strong> You may withdraw consent at any time without consequences.</p>
+    <br>
+    <label>
+      <input type="checkbox" id="acceptTermsModal">
+      I accept the terms and conditions
+    </label>
+    <br>
+    <button onclick="acceptTerms()">Accept</button>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<script>
+  let timeRemaining = 30 * 60; // 30 minutes in seconds
+  const consentCheckboxMain = document.getElementById('consentCheckboxMain');
+  const startBtn = document.getElementById('startBtn');
+  const topUpModal = document.getElementById('topUpModal');
+  const acceptTermsModal = document.getElementById('acceptTermsModal');
+
+
+  // Function to update the timer
+  function updateTimer() {
+    let minutes = Math.floor(timeRemaining / 60);
+    let seconds = timeRemaining % 60;
+    document.getElementById('timer').innerText = `Time Remaining: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+    if (timeRemaining === 0) {
+      clearInterval(timerInterval);
+      alert("Survey time is up!");
+    }
+    timeRemaining--;
+  }
+  document.getElementById('startBtn').addEventListener('click', function() {
+    // Redirect to Questionnaire.html when button is clicked
+    window.location.href = 'Que/Questionnaire.html';
+  });
+
+  // Start the timer
+  const timerInterval = setInterval(updateTimer, 1000);
+
+  // Check if the user agrees to the terms
+  consentCheckboxMain.addEventListener('change', function() {
+    startBtn.disabled = !this.checked;
+  });
+
+  // Show terms modal
+  function showTerms() {
+    topUpModal.style.display = 'flex';
+  }
+
+  // Accept the terms
+  function acceptTerms() {
+    if (acceptTermsModal.checked) {
+      topUpModal.style.display = 'none';
+      startBtn.disabled = false;
+    } else {
+      alert('You must accept the terms to proceed.');
+    }
+  }
+
+  // Close the terms modal
+  function closeModal() {
+    topUpModal.style.display = 'none';
+  }
+  // Sync the main checkbox with the modal checkbox
+  acceptTermsModal.addEventListener('change', function() {
+    consentCheckboxMain.checked = acceptTermsModal.checked;
+  });
+
+  // Sync the modal checkbox with the main checkbox
+  consentCheckboxMain.addEventListener('change', function() {
+    acceptTermsModal.checked = consentCheckboxMain.checked;
+  });
+
+</script>
+</body>
+</html>
